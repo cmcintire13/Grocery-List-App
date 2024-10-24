@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue Template</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+  html, body {
+    background-color: rgb(255, 234, 196);
+    height: 100%;
+  }
+
+  body {
+    display: grid;
+    place-items: center;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  #container {
+    width: 350px;
+    word-wrap: break-word; 
+  }
+
+
+</style>
+
+<body>  
+  <div id="app" class="grid-container">
+    <div class="grid-y grid-padding-y">
+      <h1><b>Grocery List</b></h>
+    <div class="medium-6 cell">
+      <input type="text" v-model="grocery" placeholder="Enter grocery name here...." />
+      <input type="number" v-model="amount" placeholder="Enter amount..." />
+    </div>
+    <p>
+    <button class="submit success button" @click="add" >Add Grocery</button>
+    </p>
+  </div>
+
+  <div v-if="groceries.length > 0" >
+    <h2><u>Groceries</u></h2>
+    <ul>
+    <li v-for="(grocery,index) in groceries" :key="index" class="grid-x">
+      <div id="container" class="callout">
+       
+    <label :style="{ textDecoration: grocery.checked ? 'line-through' : 'none' }">
+     {{grocery.name}} -- Amount: {{grocery.number}}
+      <input id="checkbox1" type="checkbox" v-model="grocery.checked">
+      
+    </label>
+    
+      </div>
+
+      <label>
+        <button  type="button" class="alert button tiny" @click="remove(index)" >Remove</button>
+        
+      </label>
+  
+      </li>
+    </ul>
+  
+  </div>
+
+  </div>
+
+  <script>
+    Vue.createApp({
+        data() {
+           return {
+            groceries: [],
+            grocery:'', 
+            amount:0
+           };
+        },
+        methods: {
+          add() {
+              if (this.grocery.trim() !== '') {
+                this.groceries.push({
+                  name: this.grocery,
+                  number: this.amount
+                });
+                this.grocery = '';
+                this.amount = 0;
+              }
+          },
+          remove(index) {
+            this.groceries.splice(index, 1);
+          },
+          crossOut(index)
+          {
+            this.groceries
+          }
+    
+        }
+    }).mount('#app');
+  </script>
+</body>
+</html>
